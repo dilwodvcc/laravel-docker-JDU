@@ -9,4 +9,7 @@ class Group extends Model
 {
     /** @use HasFactory<\Database\Factories\GroupFactory> */
     use HasFactory;
+    public $fillable = [
+        'name',
+    ];
 }
