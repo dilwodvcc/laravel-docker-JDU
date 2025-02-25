@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Group;
+use App\Models\Role;
 use App\Models\Room;
 use App\Models\Student;
 use App\Models\Subject;
@@ -11,6 +12,7 @@ use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Database\Factories\StudentFactory;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,10 +27,14 @@ class DatabaseSeeder extends Seeder
 //            'name' => 'Test User',
 //            'email' => 'test@example.com',
 //        ]);
-        Student::factory()->count(10)->create();
-        Teacher::factory()->count(10)->create();
-        Room::factory()->count(10)->create();
-        Group::factory()->count(10)->create();
-        Subject::factory()->count(10)->create();
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;'); // Foreign key cheklovlarini vaqtincha o‘chirish
+        Role::query()->truncate(); // Jadvalni tozalash
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;'); // Cheklovlarni qayta yoqish
+
+        $roles = ['admin', 'subject', 'teacher'];
+
+        foreach ($roles as $role) {
+            Role::query()->firstOrCreate(['name' => $role]);
+        }
     }
 }

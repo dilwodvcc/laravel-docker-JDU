@@ -12,4 +12,15 @@ class Subject extends Model
     protected $fillable = [
         'name'
     ];
+    protected $table = 'subjects';
+
+    public $timestamps = true;
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'group_subject', 'subject_id', 'group_id');
+    }
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'subject_user', 'subject_id', 'user_id');
+    }
 }

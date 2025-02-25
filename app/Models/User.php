@@ -46,4 +46,17 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class);
+    }
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class, 'subject_teachers', 'user_id', 'subject_id');
+    }
 }

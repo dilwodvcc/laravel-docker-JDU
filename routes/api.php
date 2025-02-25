@@ -1,9 +1,14 @@
 <?php
 
 use App\Http\Controllers\Api\GroupController;
+use App\Http\Controllers\Api\GroupStudentController;
+use App\Http\Controllers\Api\GroupSubjectController;
+use App\Http\Controllers\Api\RoleUserController;
 use App\Http\Controllers\Api\RoomController;
 use App\Http\Controllers\Api\SubjectController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\SubjectGroupController;
+use App\Http\Controllers\Api\SubjectTeacherController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,27 +24,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
 
     // Subjects Routes
-    Route::prefix('subjects')->group(function () {
-        Route::get('/', [SubjectController::class, 'index']);
-        Route::get('/{subject}', [SubjectController::class, 'show']);
-        Route::post('/', [SubjectController::class, 'store']);
-        Route::put('/{subject}', [SubjectController::class, 'update']);
-        Route::delete('/{subject}', [SubjectController::class, 'destroy']);
-    });
+    Route::resource('subjects', SubjectController::class);
+    Route::resource('groups', GroupController::class);
+    Route::resource('rooms', RoomController::class);
 
-    Route::prefix('groups')->group(function () {
-        Route::get('/', [GroupController::class, 'index']);
-        Route::get('/{group}', [GroupController::class, 'show']);
-        Route::post('/', [GroupController::class, 'store']);
-        Route::put('/{group}', [GroupController::class, 'update']);
-        Route::delete('/{group}', [GroupController::class, 'destroy']);
-    });
 
-    Route::prefix('rooms')->group(function () {
-        Route::get('/', [RoomController::class, 'index']);
-        Route::get('/{room}', [RoomController::class, 'show']);
-        Route::post('/', [RoomController::class, 'store']);
-        Route::put('/{room}', [RoomController::class, 'update']);
-        Route::delete('/{room}', [RoomController::class, 'destroy']);
-    });
+    Route::resource('role-user',RoleUserController::class);
+    Route::resource('group-subjects', GroupSubjectController::class);
+    Route::resource('group-students', GroupStudentController::class);
+    Route::resource('subject-teachers', SubjectTeacherController::class);
+
 });
