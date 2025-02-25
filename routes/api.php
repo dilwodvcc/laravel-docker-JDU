@@ -7,7 +7,6 @@ use App\Http\Controllers\Api\RoleUserController;
 use App\Http\Controllers\Api\RoomController;
 use App\Http\Controllers\Api\SubjectController;
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\SubjectGroupController;
 use App\Http\Controllers\Api\SubjectTeacherController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;

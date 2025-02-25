@@ -3,17 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DestroyGroupStudentRequest;
+use App\Http\Requests\StoreGroupStudentRequest;
+use App\Http\Requests\UpdateGroupStudentRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class GroupStudentController extends Controller
 {
-    public function store(Request $request)
+    public function store(StoreGroupStudentRequest $request)
     {
-        $validated = $request->validate([
-            'group_id' => 'required|exists:groups,id',
-            'user_id' => 'required|exists:users,id',
-        ]);
+        $validated = $request->validated();
 
         $user = User::find($validated['user_id']);
 
@@ -26,11 +25,9 @@ class GroupStudentController extends Controller
         return response()->json(['message' => 'Add group'], 201);
     }
 
-    public function update(Request $request,string $id)
+    public function update(UpdateGroupStudentRequest $request,string $id)
     {
-        $validated = $request->validate([
-            'group_id' => 'required|exists:groups,id',
-        ]);
+        $validated = $request->validated();
 
         $user = User::find($id);
 
@@ -42,11 +39,9 @@ class GroupStudentController extends Controller
 
         return response()->json(['message' => 'Update success']);
     }
-    public function destroy(Request $request,string $id)
+    public function destroy(DestroyGroupStudentRequest $request,string $id)
     {
-        $validated = $request->validate([
-            'group_id' => 'required|exists:groups,id',
-        ]);
+        $validated = $request->validated();
 
         $user = User::find($id);
 

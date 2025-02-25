@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreSubjectRequest;
+use App\Http\Requests\UpdateSubjectRequest;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 
@@ -31,11 +33,9 @@ class SubjectController extends Controller
         return response()->json($subject);
     }
 
-    public function store(Request $request)
+    public function store(StoreSubjectRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+        $validated = $request->validated();
 
         $subject = Subject::create($validated);
 
@@ -45,11 +45,9 @@ class SubjectController extends Controller
         ], 201);
     }
 
-    public function update(Request $request, Subject $subject)
+    public function update(UpdateSubjectRequest $request, Subject $subject)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+        $validated = $request->validated();
 
         $subject->update($validated);
 

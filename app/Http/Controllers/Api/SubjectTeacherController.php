@@ -3,17 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DestroySubjectTeacherRequest;
+use App\Http\Requests\StoreSubjectTeacherRequest;
+use App\Http\Requests\UpdateSubjectTeacherRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 class SubjectTeacherController extends Controller
 {
-    public function store(Request $request)
+    public function store(StoreSubjectTeacherRequest $request)
     {
-        $validated = $request->validate([
-            'subject_id' => 'required|exists:subjects,id',
-            'user_id' => 'required|exists:users,id',
-        ]);
+        $validated = $request->validated();
         $user = User::query()
             ->find($validated['user_id']);
         if(!$user)
@@ -27,15 +27,13 @@ class SubjectTeacherController extends Controller
             'success' => true,
         ]);
     }
-    public function update(Request $request,string $id)
+    public function update(UpdateSubjectTeacherRequest $request,string $id)
     {
         if (!$request->has('subject_id')) {
             return response()->json(['error' => 'subject_id is required'], 400);
         }
 
-        $validated = $request->validate([
-            'subject_id' => 'required|exists:subjects,id',
-        ]);
+        $validated = $request->validated();
         $user = User::query()
             ->find($id);
         if(!$user)
@@ -49,11 +47,9 @@ class SubjectTeacherController extends Controller
             'message' => 'Student updated successfully',
         ]);
     }
-    public function destroy(Request $request,string $id)
+    public function destroy(DestroySubjectTeacherRequest $request,string $id)
     {
-        $validated = $request->validate([
-            'subject_id' => 'required|exists:subjects,id',
-        ]);
+        $validated = $request->validated();
         $user = User::query()
             ->find($id);
         if(!$user)

@@ -27,9 +27,9 @@ class DatabaseSeeder extends Seeder
 //            'name' => 'Test User',
 //            'email' => 'test@example.com',
 //        ]);
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;'); // Foreign key cheklovlarini vaqtincha o‘chirish
-        Role::query()->truncate(); // Jadvalni tozalash
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;'); // Cheklovlarni qayta yoqish
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        Role::query()->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $roles = ['admin', 'subject', 'teacher'];
 

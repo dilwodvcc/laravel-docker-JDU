@@ -9,5 +9,9 @@ class Schedule extends Model
 {
     /** @use HasFactory<\Database\Factories\ScheduleFactory> */
     use HasFactory;
+    protected $fillable = [
+        'subject_id',
+        'teacher_id',
 
+    ];
 }

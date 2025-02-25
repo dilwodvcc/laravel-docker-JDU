@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreRoomRequest;
+use App\Http\Requests\UpdateRoomRequest;
 use App\Models\Room;
 use Illuminate\Http\Request;
 
@@ -31,11 +33,9 @@ class RoomController extends Controller
         return response()->json($room);
     }
 
-    public function store(Request $request)
+    public function store(StoreRoomRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+        $validated = $request->validated();
 
         $room = Room::query()->create($validated);
 
@@ -45,11 +45,9 @@ class RoomController extends Controller
         ], 201);
     }
 
-    public function update(Request $request, Room $room)
+    public function update(UpdateRoomRequest $request, Room $room)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+        $validated = $request->validated();
 
         $room->update($validated);
 
