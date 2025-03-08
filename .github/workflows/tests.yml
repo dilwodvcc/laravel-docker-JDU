@@ -1,0 +1,54 @@
+name: Laravel Test & Deploy
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Kodni yuklash
+        uses: actions/checkout@v3
+
+      - name: PHP o‘rnatish
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          extensions: mbstring, pdo, pdo_mysql
+
+      - name: Composer install
+        run: composer install --no-progress --no-suggest --prefer-dist
+
+      - name: Laravel .env sozlash
+        run: cp .env.example .env
+
+      - name: App key yaratish
+        run: php artisan key:generate
+
+      - name: Testing database sozlash
+        run: |
+          php artisan migrate --env=testing --force
+
+      - name: Laravel testlarni ishga tushirish
+        run: php artisan test
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Serverga deploy qilish
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            cd /var/www/laravel-docker-JDU
+            git pull origin main
+            composer install --no-interaction --prefer-dist --optimize-autoloader
+            php artisan migrate --force
+            php artisan cache:clear
+            php artisan config:clear
+            php artisan queue:restart
+            sudo service apache2 restart
