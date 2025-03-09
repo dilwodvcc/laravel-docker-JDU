@@ -49,7 +49,7 @@ jobs:
         run: |
           echo "Waiting for MySQL to be ready..."
           COUNTER=0
-          until mysqladmin ping -h127.0.0.1 -u testuser --password=testpassword --silent || [ $COUNTER -ge 30 ]; do
+          until mysqladmin ping -h"$DB_HOST" --silent || [ $COUNTER -ge 30 ]; do
             echo "MySQL hali tayyor emas. 2 soniyadan keyin qayta urinib ko‘ramiz..."
             sleep 2
             ((COUNTER++))
