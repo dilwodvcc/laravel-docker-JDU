@@ -19,8 +19,8 @@ jobs:
       - name: Composer install
         run: composer install --no-progress --no-suggest --prefer-dist
 
-      - name: Laravel .env sozlash
-        run: cp .env.example .env
+      - name: Laravel .env.testing sozlash
+        run: cp .env.testing .env
 
       - name: App key yaratish
         run: php artisan key:generate
@@ -40,8 +40,7 @@ jobs:
           exit 1
 
       - name: Testing database sozlash
-        run: |
-          php artisan migrate --env=testing --force
+        run: php artisan migrate --env=testing --force
 
       - name: Laravel testlarni ishga tushirish
         run: php artisan test
