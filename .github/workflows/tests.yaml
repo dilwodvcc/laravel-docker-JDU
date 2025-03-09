@@ -44,17 +44,22 @@ jobs:
       - name: MySQL xizmatining ishga tushishini kutish
         run: |
           echo "Waiting for MySQL to be ready..."
-          until mysqladmin ping -h127.0.0.1 -u testuser --password=testpassword --silent; do
+          COUNTER=0
+          until mysqladmin ping -h127.0.0.1 -u testuser --password=testpassword --silent || [ $COUNTER -ge 30 ]; do
             echo "MySQL hali tayyor emas. 2 soniyadan keyin qayta urinib ko‘ramiz..."
             sleep 2
+            ((COUNTER++))
           done
+          if [ $COUNTER -ge 30 ]; then
+            echo "MySQL tayyor bo‘lmadi. Xatolik yuz berdi!"
+            exit 1
+          fi
           echo "MySQL tayyor!"
 
       - name: Testing database sozlash
         run: |
-          php artisan config:clear
-          php artisan cache:clear
-          php artisan migrate --env=testing --force
+          php artisan config:cache
+          php artisan migrate:fresh --env=testing --force
 
       - name: Laravel testlarni ishga tushirish
         run: php artisan test
