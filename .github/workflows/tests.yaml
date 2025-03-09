@@ -41,6 +41,10 @@ jobs:
       - name: App key yaratish
         run: php artisan key:generate
 
+      - name: MySQL'ga to‘g‘ridan-to‘g‘ri ulanishni tekshirish
+        run: |
+          mysql -h 127.0.0.1 -u testuser -ptestpassword -e "SHOW DATABASES;"
+
       - name: MySQL xizmatining ishga tushishini kutish
         run: |
           echo "Waiting for MySQL to be ready..."
