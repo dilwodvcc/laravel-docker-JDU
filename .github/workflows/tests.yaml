@@ -25,6 +25,20 @@ jobs:
       - name: App key yaratish
         run: php artisan key:generate
 
+      - name: MySQL xizmatining ishga tushishini kutish
+        run: |
+          echo "Waiting for MySQL to be ready..."
+          for i in {1..30}; do
+            if mysqladmin ping -h"${{ secrets.DB_HOST }}" --silent; then
+              echo "MySQL is ready!"
+              exit 0
+            fi
+            echo "MySQL is not ready yet. Retrying in 2 seconds..."
+            sleep 2
+          done
+          echo "MySQL did not start in time."
+          exit 1
+
       - name: Testing database sozlash
         run: |
           php artisan migrate --env=testing --force
