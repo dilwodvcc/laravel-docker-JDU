@@ -1,0 +1,8 @@
+- name: MySQL xizmatining ishga tushishini kutish
+  run: |
+    echo "Waiting for MySQL to be ready..."
+    until mysqladmin ping -h127.0.0.1 --silent; do
+      echo "MySQL hali tayyor emas. 2 soniyadan keyin qayta urinib ko‘ramiz..."
+      sleep 2
+    done
+    echo "MySQL tayyor!"
